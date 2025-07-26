@@ -1,0 +1,227 @@
+
+
+
+**You are a world-class Flutter developer and software architect.
+I want you to help me build a complete billing & transaction management mobile app in Flutter with the following features and architecture.
+Please generate clean, production-grade, modular code, step-by-step, using best practices.**
+
+---
+
+## 📌 **1️⃣ Project Initialization**
+
+**Please do the following:**
+
+* Initialize a Flutter project named `billing_app`.
+* Use `provider` or `riverpod` for state management.
+* Setup `firebase_auth` and `google_sign_in` for login/signup and backup link.
+* Use `isar` for local database with code generation.
+* Add `pdf` and `printing` for PDF generation & sharing.
+* Ensure the `pubspec.yaml` has all these dependencies with the latest versions.
+
+---
+
+## 📌 **2️⃣ Database Design**
+
+**Design the local database using Isar:**
+
+Entities:
+
+* `User` (id, email, passwordHash, googleAccountLinked)
+* `Register` (id, name, linkedUserId)
+* `Customer` (id, name, email, phone, address, linkedRegisterId, outstandingBalance)
+* `Item` (id, name, description, stockQuantity, unitPrice, linkedRegisterId)
+* `Transaction` (id, transactionDate, customerId, registerId, totalAmount, paymentReceived, list of purchased items)
+* `TransactionItem` (id, transactionId, itemId, quantity, pricePerUnit)
+
+Add appropriate:
+
+* indexes for fast lookups
+* relationships via foreign key IDs
+* queries for pagination, searching, and sorting.
+
+Generate all Isar model `.g.dart` files properly.
+
+---
+
+## 📌 **3️⃣ Authentication**
+
+* Implement **Login Page**: asks for email & password.
+* Implement **Signup Page**: collects email, password, and creates a new `User` in Isar (and optionally in Firebase Auth for backup).
+* After login/signup, user is navigated to **Register Selection Page**.
+
+---
+
+## 📌 **4️⃣ Register Management**
+
+* **Register Selection Page:**
+
+  * If user has no registers, show a page to create a new register (name field).
+  * If user has multiple registers, list them for selection.
+  * After selecting a register, open the Dashboard (Home Page).
+
+---
+
+## 📌 **5️⃣ Home Page**
+
+Design a **Dashboard/Home Page** that shows:
+
+* Current Register info.
+* Sections to:
+
+  * View & manage Transactions (with pagination).
+  * View & manage Customers.
+  * View & manage Stock Items.
+
+Add a drawer or bottom navigation for easy navigation.
+
+---
+
+## 📌 **6️⃣ Customers Page**
+
+* **List View**: Paginated list of customers for the selected register.
+* **Add/Edit Customer**: Form with name, email, phone, address.
+* **Delete Customer**: with confirmation.
+* Search bar for fast lookup.
+
+---
+
+## 📌 **7️⃣ Stock Page**
+
+* **List View**: Paginated list of items for the selected register.
+* **Add/Edit Item**: name, description, stock quantity, unit price.
+* **Delete Item**: with confirmation.
+* Search bar for fast lookup.
+
+---
+
+## 📌 **8️⃣ Transactions Page**
+
+* **List View**: Paginated transactions with date, customer, total, payment status.
+* **Create Transaction**:
+
+  * Pick existing customer (with search) OR add new customer inline.
+  * Select multiple items, specify quantity.
+  * Automatically calculate total.
+  * On save:
+
+    * Insert new `Transaction` and `TransactionItems`.
+    * Decrease stock quantities accordingly.
+* **Update/Delete Transaction**: Optional.
+
+---
+
+## 📌 **9️⃣ Payment Tracking**
+
+* Each Transaction shows:
+
+  * Total amount
+  * Payment received so far
+  * Outstanding amount
+
+* Allow user to record partial payments:
+
+  * Update payment received
+  * Auto-update outstanding balance for customer.
+
+---
+
+## 📌 **🔟 PDF Generation**
+
+* For each transaction:
+
+  * Generate a clean PDF invoice:
+
+    * Company name / Register name
+    * Customer info
+    * Date
+    * List of items, quantities, prices
+    * Total amount, payment, outstanding
+  * Allow sharing via `printing` plugin (share, print, save).
+
+---
+
+## 📌 **1️⃣1️⃣ Google Account Link & Backup**
+
+* In **User Settings Page**:
+
+  * Add button to link/unlink Google account using `google_sign_in`.
+  * Once linked, use Firebase Storage or Drive API to backup Isar DB file on Google Drive periodically or manually.
+  * Explain backup flow: local Isar export → upload to cloud → restore when needed.
+
+---
+
+## 📌 **1️⃣2️⃣ Performance**
+
+* Implement:
+
+  * Pagination with `limit` and `offset` in Isar queries.
+  * Index fields like customer name, transaction date, item name for fast searching.
+  * Caching: keep commonly used lists in memory while app is open.
+  * Use `ValueNotifier` or `provider` for reactive UI updates.
+
+---
+
+## 📌 **1️⃣3️⃣ Code Structure**
+
+Follow **clean architecture**:
+
+* `lib/`
+
+  * `models/` → Isar models
+  * `services/` → Auth, DB, PDF, Backup logic
+  * `providers/` → State management
+  * `screens/` → UI pages
+  * `widgets/` → reusable widgets
+  * `main.dart` → app entry
+
+---
+
+## 📌 **1️⃣4️⃣ Testing**
+
+* Generate simple unit tests for:
+
+  * Database CRUD operations
+  * Authentication flow
+  * PDF generation
+
+---
+
+## 📌 **1️⃣5️⃣ Final Build**
+
+* Ensure Android & iOS builds run.
+* Generate `release` APK / AAB for Play Store.
+
+---
+
+## 📌 **IMPORTANT:**
+
+✅ Provide full Dart code for:
+
+* Models (with annotations)
+* CRUD services for each entity
+* Complete screens (login, signup, register, dashboard, customer CRUD, item CRUD, transaction CRUD, PDF generation)
+* Google backup integration
+
+✅ Make sure code is modular and easy to maintain.
+
+✅ Use `flutter pub run build_runner build` wherever code generation is needed.
+
+✅ Use clear widget names and file names.
+
+---
+
+## 📌 **Output format**
+
+👉 **Please output the project in logical sections:**
+
+1. `pubspec.yaml`
+2. Models
+3. Providers
+4. Services
+5. Screens
+6. Main app
+7. Run instructions
+
+---
+
+

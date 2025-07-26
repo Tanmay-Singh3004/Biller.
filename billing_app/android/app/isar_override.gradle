@@ -1,0 +1,4 @@
+// Override for Isar Flutter Libs to fix namespace issue
+android {
+    namespace 'dev.isar.isar_flutter_libs'
+}
